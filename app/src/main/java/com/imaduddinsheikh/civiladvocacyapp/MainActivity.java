@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             sb.append(String.format(
                     Locale.getDefault(),
                     "%s",
-                    address));
+                    address.substring(0, address.lastIndexOf(","))));
         } catch (IOException e) {
             e.printStackTrace();
         }
