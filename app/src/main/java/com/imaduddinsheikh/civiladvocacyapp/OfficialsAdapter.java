@@ -39,7 +39,7 @@ public class OfficialsAdapter extends RecyclerView.Adapter<OfficialsViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull OfficialsViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: FILLING VIEW HOLDER WeatherDay " + position);
+        Log.d(TAG, "onBindViewHolder: FILLING VIEW HOLDER Official " + position);
 
         Official official = officialsList.get(position);
         holder.officialOfficeTitle.setText(official.getOffice());

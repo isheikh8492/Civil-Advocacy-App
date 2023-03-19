@@ -9,6 +9,8 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class OfficialsDownloader {
@@ -51,5 +53,25 @@ public class OfficialsDownloader {
 
     private static void parseJSON(String s) {
         Log.d(TAG, "parseJSON:\n" + s);
+
+        try {
+            JSONObject jObjMain = new JSONObject(s);
+
+            // "offices" and "official" section
+            JSONArray offices = jObjMain.getJSONArray("offices");
+            JSONArray officials = jObjMain.getJSONArray("officials");
+
+            for (int i = 0; i < offices.length(); i++) {
+                JSONObject office = offices.getJSONObject(i);
+                String officialOfficeTitle = office.getString("name");
+                JSONArray officialIndex = office.getJSONArray("officialIndices");
+                Log.d(TAG, "parseJSON: " + office);
+                Log.d(TAG, "parseJSON: " + officialOfficeTitle);
+                Log.d(TAG, "parseJSON: " + officialIndex.length());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
