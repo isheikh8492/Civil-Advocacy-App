@@ -15,6 +15,7 @@ import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +31,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+    private static final String TAG = "MainActivity";
     private FusedLocationProviderClient mFusedLocationClient;
     private static final int LOCATION_REQUEST = 111;
     private static String locationString = "Unspecified Location";
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFusedLocationClient =
                 LocationServices.getFusedLocationProviderClient(this);
         determineLocation();
+        doDownload();
 
         officialRecyclerView = findViewById(R.id.officialsRecyclerView);
         officialAdapter = new OfficialsAdapter(officialList, this);
@@ -164,8 +166,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return sb.toString();
     }
 
+    public void updateData(List<Official> officialList) {
+        if ((officialList == null) || (!(hasNetworkConnection()))) {
+            return;
+        }
+        Log.d(TAG, "updateData: " + officialList);
+
+        officialAdapter = new OfficialsAdapter(officialList, this);
+        officialRecyclerView.setAdapter(officialAdapter);
+        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        officialRecyclerView.setLayoutManager(linearLayoutManager);
+
+    }
+
     @Override
     public void onClick(View v) {
 
     }
+
+    private void doDownload() {
+        OfficialsDownloader.downloadOfficials(this);
+    }
+
+
 }
