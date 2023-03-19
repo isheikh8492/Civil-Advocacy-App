@@ -43,7 +43,7 @@ public class OfficialsAdapter extends RecyclerView.Adapter<OfficialsViewHolder> 
 
         Official official = officialsList.get(position);
         holder.officialOfficeTitle.setText(official.getOffice());
-        String officialNameParty = official.getName() + " (" + official.getParty() + " Party)";
+        String officialNameParty = official.getName() + " (" + official.getParty() + ")";
         holder.officialNameParty.setText(officialNameParty);
     }
 

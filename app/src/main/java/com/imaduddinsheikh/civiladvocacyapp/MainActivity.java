@@ -63,18 +63,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         officialRecyclerView.setAdapter(officialAdapter);
         linearLayoutManager = new LinearLayoutManager(this);
         officialRecyclerView.setLayoutManager(linearLayoutManager);
-
-        for (int i = 0; i < 30; i++) {
-            Official official = new Official("John Doe " + i,
-                    "Some office position",
-                    (i % 2 == 0 ? "Democratic": "Republican"),
-                    "",
-                    "",
-                    "",
-                    ""
-                    );
-            officialList.add(official);
-        }
     }
 
     @Override

@@ -83,6 +83,7 @@ public class OfficialsDownloader {
                 }
             }
 
+            mainActivity.updateData(officialList);
         } catch (Exception e) {
             e.printStackTrace();
         }
