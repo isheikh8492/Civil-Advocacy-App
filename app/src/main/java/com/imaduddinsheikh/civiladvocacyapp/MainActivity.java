@@ -4,15 +4,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,15 +25,27 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FusedLocationProviderClient mFusedLocationClient;
     private static final int LOCATION_REQUEST = 111;
     private static String locationString = "Unspecified Location";
     private TextView locationTxtView;
+
+    private RecyclerView officialRecyclerView;
+
+    private OfficialsAdapter adapter;
+
+    private final List<Official> officialList = new ArrayList<>();
+
+    private OfficialsAdapter officialAdapter; // Data to recyclerview adapter
+
+    private LinearLayoutManager linearLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +55,24 @@ public class MainActivity extends AppCompatActivity {
         mFusedLocationClient =
                 LocationServices.getFusedLocationProviderClient(this);
         determineLocation();
+
+        officialRecyclerView = findViewById(R.id.officialsRecyclerView);
+        officialAdapter = new OfficialsAdapter(officialList, this);
+        officialRecyclerView.setAdapter(officialAdapter);
+        linearLayoutManager = new LinearLayoutManager(this);
+        officialRecyclerView.setLayoutManager(linearLayoutManager);
+
+        for (int i = 0; i < 30; i++) {
+            Official official = new Official("John Doe " + i,
+                    "Some office position",
+                    (i % 2 == 0 ? "Democratic": "Republican"),
+                    "",
+                    "",
+                    "",
+                    ""
+                    );
+            officialList.add(official);
+        }
     }
 
     @Override
@@ -67,15 +102,25 @@ public class MainActivity extends AppCompatActivity {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (requestCode == LOCATION_REQUEST) {
-            if (permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    determineLocation();
-                } else {
-                    locationTxtView.setText(locationString);
+        if (hasNetworkConnection()) {
+            if (requestCode == LOCATION_REQUEST) {
+                if (permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        determineLocation();
+                    } else {
+                        locationTxtView.setText(locationString);
+                    }
                 }
             }
+        } else {
+            locationTxtView.setText(R.string.no_internet);
         }
+    }
+
+    private boolean hasNetworkConnection() {
+        ConnectivityManager connectivityManager = getSystemService(ConnectivityManager.class);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnectedOrConnecting());
     }
 
     private void determineLocation() {
@@ -117,5 +162,10 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return sb.toString();
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }
