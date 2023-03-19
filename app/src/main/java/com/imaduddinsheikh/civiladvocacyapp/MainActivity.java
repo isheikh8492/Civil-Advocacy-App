@@ -39,9 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private RecyclerView officialRecyclerView;
 
-    private OfficialsAdapter adapter;
-
-    private final List<Official> officialList = new ArrayList<>();
+    private List<Official> officialList = new ArrayList<>();
 
     private OfficialsAdapter officialAdapter; // Data to recyclerview adapter
 
@@ -59,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         doDownload();
 
         officialRecyclerView = findViewById(R.id.officialsRecyclerView);
-        officialAdapter = new OfficialsAdapter(officialList, this);
+        officialAdapter = new OfficialsAdapter(this.officialList, this);
         officialRecyclerView.setAdapter(officialAdapter);
         linearLayoutManager = new LinearLayoutManager(this);
         officialRecyclerView.setLayoutManager(linearLayoutManager);
@@ -158,9 +156,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if ((officialList == null) || (!(hasNetworkConnection()))) {
             return;
         }
-        Log.d(TAG, "updateData: " + officialList);
 
-        officialAdapter = new OfficialsAdapter(officialList, this);
+        this.officialList = officialList;
+        officialAdapter = new OfficialsAdapter(this.officialList, this);
         officialRecyclerView.setAdapter(officialAdapter);
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         officialRecyclerView.setLayoutManager(linearLayoutManager);
@@ -169,7 +167,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-
+        int pos = officialRecyclerView.getChildLayoutPosition(v);
+        Official o = officialList.get(pos);
+        Toast.makeText(v.getContext(), "SHORT " + o.toString(), Toast.LENGTH_SHORT).show();
     }
 
     private void doDownload() {
