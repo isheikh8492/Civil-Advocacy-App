@@ -1,5 +1,8 @@
 package com.imaduddinsheikh.civiladvocacyapp;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -8,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -26,6 +31,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -36,8 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int LOCATION_REQUEST = 111;
     private static String locationString = "Unspecified Location";
     private TextView locationTxtView;
-
     private RecyclerView officialRecyclerView;
+
+    private ActivityResultLauncher<Intent> activityResultLauncher;
 
     private List<Official> officialList = new ArrayList<>();
 
@@ -50,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        locationTxtView = findViewById(R.id.locationTxtView);
+        locationTxtView = findViewById(R.id.oLocationTxtView);
         mFusedLocationClient =
                 LocationServices.getFusedLocationProviderClient(this);
         determineLocation();
@@ -61,6 +68,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         officialRecyclerView.setAdapter(officialAdapter);
         linearLayoutManager = new LinearLayoutManager(this);
         officialRecyclerView.setLayoutManager(linearLayoutManager);
+
+        activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                this::handleResult);
+    }
+
+    public void handleResult(ActivityResult result) {
+
+        if (result == null || result.getData() == null) {
+            Log.d(TAG, "handleResult: NULL ActivityResult received");
+        }
+
+        Intent data = result.getData();
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            String l = data.getStringExtra("LOCATION");
+            locationTxtView.setText(l);
+            doDownload();
+        }
     }
 
     @Override
@@ -169,7 +194,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         int pos = officialRecyclerView.getChildLayoutPosition(v);
         Official o = officialList.get(pos);
-        Toast.makeText(v.getContext(), "SHORT " + o.toString(), Toast.LENGTH_SHORT).show();
+        if (hasNetworkConnection()) {
+            Intent intent = new Intent(this, OfficialActivity.class);
+            intent.putExtra("LOCATION", locationTxtView.getText().toString());
+            intent.putExtra("OFFICIAL", (Serializable) o);
+            activityResultLauncher.launch(intent);
+        } else {
+            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void doDownload() {

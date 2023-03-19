@@ -7,7 +7,7 @@
     tools:context=".OfficialActivity">
 
     <TextView
-        android:id="@+id/locationTxtView"
+        android:id="@+id/oLocationTxtView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/light_purple"

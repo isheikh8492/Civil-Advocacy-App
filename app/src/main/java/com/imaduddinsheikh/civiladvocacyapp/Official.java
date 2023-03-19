@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class Official {
+import java.io.Serializable;
+
+public class Official implements Serializable {
     private final String name;
 
     private final String office;
