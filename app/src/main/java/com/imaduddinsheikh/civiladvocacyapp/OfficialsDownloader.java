@@ -13,6 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OfficialsDownloader {
     private static final String TAG = "OfficialsDownloader";
 
@@ -21,6 +24,8 @@ public class OfficialsDownloader {
     private static RequestQueue queue;
 
     private static Official officialObj;
+
+    private static List<Official> officialList = new ArrayList<>();;
 
     private static String address = "6 W 31st St, Chicago, IL";
 
@@ -69,16 +74,76 @@ public class OfficialsDownloader {
                 if (officialIndex.length() > 1) {
                     for (int j = 0; j < officialIndex.length(); j++) {
                         JSONObject official = officials.getJSONObject(officialIndex.getInt(j));
-                        Log.d(TAG, "parseJSON: " + officialOfficeTitle + ": " + official.getString("name"));
+                        mergeOfficialToList(official, officialOfficeTitle);
+
                     }
                 } else {
                     JSONObject official = officials.getJSONObject(officialIndex.getInt(0));
-                    Log.d(TAG, "parseJSON: " + officialOfficeTitle + ": " + official.getString("name"));
+                    mergeOfficialToList(official, officialOfficeTitle);
                 }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static void mergeOfficialToList(JSONObject official, String officialTitle) {
+
+        try {
+            // "name" section
+            String officialName = official.getString("name");
+
+            // "party" section
+            String officialParty = "Unknown";
+            if (official.has("party")) {
+                officialParty = official.getString("party");
+            }
+
+            // "address" section
+            String officialAddress = null;
+            StringBuilder addressLine = new StringBuilder();
+            if (official.has("address")) {
+                JSONObject address = official.getJSONArray("address")
+                        .getJSONObject(0);
+                for (int a = 1; a <= address.length(); a++) {
+                    String lineAttr = "line" + a;
+                    if (address.has(lineAttr)) {
+                        addressLine.append(address.get(lineAttr)).append(", ");
+                    } else {
+                        break;
+                    }
+                }
+                addressLine.append(address.get("city")).append(", ")
+                        .append(address.get("state")).append(" ").append(address.get("zip"));
+                officialAddress = addressLine.toString();
+            }
+
+            // "phone" section
+            String officialPhone = null;
+            if (official.has("phones")) {
+                officialPhone = official.getJSONArray("phones").getString(0);
+            }
+
+            // "website" section
+            String officialWebSite = null;
+            if (official.has("urls")) {
+                officialWebSite = official.getJSONArray("urls").getString(0);
+            }
+
+            // "email" section
+            String officialEmail = null;
+            if (official.has("emails")) {
+                officialEmail = official.getJSONArray("emails").getString(0);
+            }
+
+            officialObj = new Official(officialName, officialTitle, officialParty, officialAddress,
+                    officialPhone, officialEmail, officialWebSite);
+
+            officialList.add(officialObj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

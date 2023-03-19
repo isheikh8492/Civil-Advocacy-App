@@ -3,6 +3,7 @@ package com.imaduddinsheikh.civiladvocacyapp;
 import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class Official {
     private final String name;
@@ -11,12 +12,16 @@ public class Official {
 
     private final String party;
 
+    @Nullable
     private final String address;
 
+    @Nullable
     private final String phone;
 
+    @Nullable
     private final String email;
 
+    @Nullable
     private final String website;
 
     public Official(String name, String office, String party, String address, String phone, String email, String website) {
@@ -41,18 +46,22 @@ public class Official {
         return party;
     }
 
+    @Nullable
     public String getAddress() {
         return address;
     }
 
+    @Nullable
     public String getPhone() {
         return phone;
     }
 
+    @Nullable
     public String getEmail() {
         return email;
     }
 
+    @Nullable
     public String getWebsite() {
         return website;
     }
