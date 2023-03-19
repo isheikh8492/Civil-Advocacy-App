@@ -65,9 +65,16 @@ public class OfficialsDownloader {
                 JSONObject office = offices.getJSONObject(i);
                 String officialOfficeTitle = office.getString("name");
                 JSONArray officialIndex = office.getJSONArray("officialIndices");
-                Log.d(TAG, "parseJSON: " + office);
-                Log.d(TAG, "parseJSON: " + officialOfficeTitle);
-                Log.d(TAG, "parseJSON: " + officialIndex.length());
+
+                if (officialIndex.length() > 1) {
+                    for (int j = 0; j < officialIndex.length(); j++) {
+                        JSONObject official = officials.getJSONObject(officialIndex.getInt(j));
+                        Log.d(TAG, "parseJSON: " + officialOfficeTitle + ": " + official.getString("name"));
+                    }
+                } else {
+                    JSONObject official = officials.getJSONObject(officialIndex.getInt(0));
+                    Log.d(TAG, "parseJSON: " + officialOfficeTitle + ": " + official.getString("name"));
+                }
             }
 
         } catch (Exception e) {
