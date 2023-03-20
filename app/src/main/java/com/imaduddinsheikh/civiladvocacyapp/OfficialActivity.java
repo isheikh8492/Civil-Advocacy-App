@@ -39,6 +39,10 @@ public class OfficialActivity extends AppCompatActivity {
     private ConstraintLayout oConstraintLayout;
 
     private ImageView oImgView;
+    private ImageView facebookImgView;
+    private ImageView youtubeImgView;
+    private ImageView twitterImgView;
+
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
     @Override
@@ -60,6 +64,9 @@ public class OfficialActivity extends AppCompatActivity {
         oWebsiteTxtView = findViewById(R.id.oWebsiteTxtView);
         websiteTxtView = findViewById(R.id.websiteTxtView);
         oImgView = findViewById(R.id.oOfficialImgView);
+        facebookImgView = findViewById(R.id.facebookImgView);
+        youtubeImgView = findViewById(R.id.youtubeImgView);
+        twitterImgView = findViewById(R.id.twitterImgView);
 
         Intent intent = getIntent();
         if (intent.hasExtra("LOCATION")) {
@@ -129,6 +136,27 @@ public class OfficialActivity extends AppCompatActivity {
             Picasso.get().load(official.getPhoto()).error(R.drawable.brokenimage).into(oImgView);
         } else {
             oImgView.setImageResource(R.drawable.missing);
+        }
+        if (!(official.socialMediaChannels.isEmpty())) {
+            if (official.socialMediaChannels.containsKey("Facebook")) {
+                facebookImgView.setVisibility(View.VISIBLE);
+            } else {
+                facebookImgView.setVisibility(View.INVISIBLE);
+            }
+            if (official.socialMediaChannels.containsKey("Twitter")) {
+                twitterImgView.setVisibility(View.VISIBLE);
+            } else {
+                twitterImgView.setVisibility(View.INVISIBLE);
+            }
+            if (official.socialMediaChannels.containsKey("YouTube")) {
+                youtubeImgView.setVisibility(View.VISIBLE);
+            } else {
+                youtubeImgView.setVisibility(View.INVISIBLE);
+            }
+        } else {
+            facebookImgView.setVisibility(View.INVISIBLE);
+            twitterImgView.setVisibility(View.INVISIBLE);
+            youtubeImgView.setVisibility(View.INVISIBLE);
         }
     }
 }

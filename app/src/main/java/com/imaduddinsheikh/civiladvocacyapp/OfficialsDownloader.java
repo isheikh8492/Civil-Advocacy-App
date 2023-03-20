@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -148,12 +149,21 @@ public class OfficialsDownloader {
             // "photo" section
             String officialPhoto = null;
             if (official.has("photoUrl")) {
-                Log.d(TAG, "mergeOfficialToList: " + officialPhoto);
                 officialPhoto = official.getString("photoUrl");
             }
 
+            // "channels" section
+            Hashtable<String, String> officialChannels = new Hashtable<>();
+            if (official.has("channels")) {
+                JSONArray channels = official.getJSONArray("channels");
+                for (int c = 0;c < channels.length();c++) {
+                    officialChannels.put(channels.getJSONObject(c).getString("type"),
+                            channels.getJSONObject(c).getString("id"));
+                }
+            }
+
             officialObj = new Official(officialName, officialTitle, officialParty, officialAddress,
-                    officialPhone, officialEmail, officialWebSite, officialPhoto);
+                    officialPhone, officialEmail, officialWebSite, officialPhoto, officialChannels);
 
             officialList.add(officialObj);
         } catch (Exception e) {

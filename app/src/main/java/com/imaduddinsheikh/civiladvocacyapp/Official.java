@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.io.Serializable;
+import java.util.Hashtable;
 
 public class Official implements Serializable {
     private final String name;
@@ -29,7 +30,10 @@ public class Official implements Serializable {
     @Nullable
     private final String photo;
 
-    public Official(String name, String office, String party, String address, String phone, String email, String website, String photo) {
+    @Nullable final Hashtable<String, String> socialMediaChannels;
+
+    public Official(String name, String office, String party, String address, String phone, String email, String website, String photo,
+                    Hashtable<String, String> socialMediaChannels) {
         this.name = name;
         this.office = office;
         this.party = party;
@@ -38,6 +42,7 @@ public class Official implements Serializable {
         this.email = email;
         this.website = website;
         this.photo = photo;
+        this.socialMediaChannels = socialMediaChannels;
     }
 
     public String getName() {
@@ -75,6 +80,11 @@ public class Official implements Serializable {
     @Nullable
     public String getPhoto() { return photo; }
 
+    @Nullable
+    public Hashtable<String, String> getSocialMediaChannels() {
+        return socialMediaChannels;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -87,6 +97,7 @@ public class Official implements Serializable {
                 ", email='" + email + '\'' +
                 ", website='" + website + '\'' +
                 ", photo='" + photo + '\'' +
+                ", socialMediaChannels=" + (socialMediaChannels != null ? socialMediaChannels.toString() : null) +
                 '}';
     }
 }
