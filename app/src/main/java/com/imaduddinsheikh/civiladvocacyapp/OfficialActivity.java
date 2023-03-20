@@ -12,6 +12,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -114,24 +115,52 @@ public class OfficialActivity extends AppCompatActivity {
                 .getColor(colorSet.get(official.getParty())));
         if (official.getAddress() != null) {
             oAddressTxtView.setText(official.getAddress());
+            oAddressTxtView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickOAddress(v, official.getAddress());
+                }
+            });
+            oAddressTxtView.setPaintFlags(oAddressTxtView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         } else {
             oAddressTxtView.setVisibility(View.GONE);
             addressTxtView.setVisibility(View.GONE);
         }
         if (official.getPhone() != null) {
             oPhoneTxtView.setText(official.getPhone());
+            oPhoneTxtView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickOPhone(v, official.getPhone());
+                }
+            });
+            oPhoneTxtView.setPaintFlags(oPhoneTxtView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         } else {
             oPhoneTxtView.setVisibility(View.GONE);
             phoneTxtView.setVisibility(View.GONE);
         }
         if (official.getEmail() != null) {
             oEmailTxtView.setText(official.getEmail());
+            oEmailTxtView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickOEmail(v, official.getEmail());
+                }
+            });
+            oEmailTxtView.setPaintFlags(oEmailTxtView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         } else {
             oEmailTxtView.setVisibility(View.GONE);
             emailTxtView.setVisibility(View.GONE);
         }
         if (official.getWebsite() != null) {
             oWebsiteTxtView.setText(official.getWebsite());
+            oWebsiteTxtView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickOWebsite(v, official.getWebsite());
+                }
+            });
+            oWebsiteTxtView.setPaintFlags(oWebsiteTxtView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         } else {
             oWebsiteTxtView.setVisibility(View.GONE);
             websiteTxtView.setVisibility(View.GONE);
@@ -147,7 +176,7 @@ public class OfficialActivity extends AppCompatActivity {
                 facebookImgView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        clickFacebook(v, official.socialMediaChannels.get("Facebook"));
+                        clickFacebook(v, official.getSocialMediaChannels().get("Facebook"));
                     }
                 });
             } else {
@@ -158,7 +187,7 @@ public class OfficialActivity extends AppCompatActivity {
                 twitterImgView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        clickTwitter(v, official.socialMediaChannels.get("Twitter"));
+                        clickTwitter(v, official.getSocialMediaChannels().get("Twitter"));
                     }
                 });
             } else {
@@ -179,6 +208,50 @@ public class OfficialActivity extends AppCompatActivity {
             facebookImgView.setVisibility(View.INVISIBLE);
             twitterImgView.setVisibility(View.INVISIBLE);
             youtubeImgView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void clickOWebsite(View v, String website) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(website));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+    private void clickOEmail(View v, String email) {
+        String[] addresses = new String[]{email};
+        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"));
+
+        intent.putExtra(Intent.EXTRA_EMAIL, addresses);
+        // Check if there is an app that can handle mailto intents
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            makeErrorAlert("No Application found that handles SENDTO (mailto) intents");
+        }
+    }
+
+    private void clickOPhone(View v, String phone) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phone));
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            makeErrorAlert("No Application found that handles ACTION_DIAL (tel) intents");
+        }
+    }
+
+    private void clickOAddress(View v, String address) {
+        Uri mapUri = Uri.parse("geo:0,0?q=" + Uri.encode(address));
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, mapUri);
+        // Check if there is an app that can handle geo intents
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            makeErrorAlert("No Application found that handles ACTION_VIEW (geo) intents");
         }
     }
 
