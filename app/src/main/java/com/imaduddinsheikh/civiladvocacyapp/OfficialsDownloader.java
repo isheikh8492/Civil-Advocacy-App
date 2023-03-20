@@ -1,7 +1,13 @@
 package com.imaduddinsheikh.civiladvocacyapp;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -15,6 +21,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class OfficialsDownloader {
     private static final String TAG = "OfficialsDownloader";
@@ -31,6 +38,8 @@ public class OfficialsDownloader {
 
     private static final String officialAPIUrl = "https://civicinfo.googleapis.com/civicinfo/v2/representatives";
     private static final String APIKey = "AIzaSyDzLuFbK2joVKvQ-uS-ZKlSsSja4FMvZKs";
+
+    private static Context context;
 
     public static void downloadOfficials(MainActivity mainActivityIn) {
         mainActivity = mainActivityIn;
@@ -138,8 +147,15 @@ public class OfficialsDownloader {
                 officialEmail = official.getJSONArray("emails").getString(0);
             }
 
+            // "photo" section
+            String officialPhoto = null;
+            if (official.has("photoUrl")) {
+                Log.d(TAG, "mergeOfficialToList: " + officialPhoto);
+                officialPhoto = official.getString("photoUrl");
+            }
+
             officialObj = new Official(officialName, officialTitle, officialParty, officialAddress,
-                    officialPhone, officialEmail, officialWebSite);
+                    officialPhone, officialEmail, officialWebSite, officialPhoto);
 
             officialList.add(officialObj);
         } catch (Exception e) {
@@ -147,4 +163,6 @@ public class OfficialsDownloader {
         }
 
     }
+
+
 }

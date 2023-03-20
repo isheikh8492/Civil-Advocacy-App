@@ -26,7 +26,10 @@ public class Official implements Serializable {
     @Nullable
     private final String website;
 
-    public Official(String name, String office, String party, String address, String phone, String email, String website) {
+    @Nullable
+    private final String photo;
+
+    public Official(String name, String office, String party, String address, String phone, String email, String website, String photo) {
         this.name = name;
         this.office = office;
         this.party = party;
@@ -34,6 +37,7 @@ public class Official implements Serializable {
         this.phone = phone;
         this.email = email;
         this.website = website;
+        this.photo = photo;
     }
 
     public String getName() {
@@ -68,6 +72,9 @@ public class Official implements Serializable {
         return website;
     }
 
+    @Nullable
+    public String getPhoto() { return photo; }
+
     @NonNull
     @Override
     public String toString() {
@@ -79,6 +86,7 @@ public class Official implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", website='" + website + '\'' +
+                ", photo='" + photo + '\'' +
                 '}';
     }
 }

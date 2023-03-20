@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashSet;
 import java.util.List;
@@ -45,6 +46,12 @@ public class OfficialsAdapter extends RecyclerView.Adapter<OfficialsViewHolder> 
         holder.officialOfficeTitle.setText(official.getOffice());
         String officialNameParty = official.getName() + " (" + official.getParty() + ")";
         holder.officialNameParty.setText(officialNameParty);
+
+        if (official.getPhoto() != null) {
+            Picasso.get().load(official.getPhoto()).error(R.drawable.brokenimage).into(holder.officialImage);
+        } else {
+            holder.officialImage.setImageResource(R.drawable.missing);
+        }
     }
 
     @Override
