@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Hashtable;
 
@@ -205,6 +206,16 @@ public class OfficialActivity extends AppCompatActivity {
         }
         if (official.getPhoto() != null) {
             Picasso.get().load(official.getPhoto()).error(R.drawable.brokenimage).into(oImgView);
+            oImgView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(OfficialActivity.this, PhotoDetailActivity.class);
+                    intent.putExtra("LOCATION", oLocationTxtView.getText().toString());
+                    intent.putExtra("OFFICIAL", (Serializable) official);
+                    activityResultLauncher.launch(intent);
+                }
+            });
+
         } else {
             oImgView.setImageResource(R.drawable.missing);
         }
