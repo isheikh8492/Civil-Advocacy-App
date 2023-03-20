@@ -48,6 +48,8 @@ public class OfficialActivity extends AppCompatActivity {
     private ImageView youtubeImgView;
     private ImageView twitterImgView;
 
+    private ImageView oPartyLogoImgView;
+
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
     @Override
@@ -72,6 +74,7 @@ public class OfficialActivity extends AppCompatActivity {
         facebookImgView = findViewById(R.id.facebookImgView);
         youtubeImgView = findViewById(R.id.youtubeImgView);
         twitterImgView = findViewById(R.id.twitterImgView);
+        oPartyLogoImgView = findViewById(R.id.oPartyLogoImgView);
 
         Intent intent = getIntent();
         if (intent.hasExtra("LOCATION")) {
@@ -107,12 +110,25 @@ public class OfficialActivity extends AppCompatActivity {
         oNameTxtView.setText(official.getName());
         oOfficeTxtView.setText(official.getOffice());
         oPartyTxtView.setText(official.getParty());
-        Hashtable<String, Integer> colorSet = new Hashtable<>();
-        colorSet.put("Republican Party", R.color.red_background);
-        colorSet.put("Democratic Party", R.color.blue_background);
-        colorSet.put("Nonpartisan", R.color.black_background);
-        oConstraintLayout.setBackgroundColor(getResources()
-                .getColor(colorSet.get(official.getParty())));
+        switch (official.getParty()) {
+            case "Republican Party":
+                oConstraintLayout.setBackgroundColor(getResources()
+                        .getColor(R.color.red_background));
+                oPartyLogoImgView.setImageResource(R.drawable.rep_logo);
+                break;
+            case "Democratic Party":
+                oConstraintLayout.setBackgroundColor(getResources()
+                        .getColor(R.color.blue_background));
+                oPartyLogoImgView.setImageResource(R.drawable.dem_logo);
+                break;
+            case "Nonpartisan":
+                oConstraintLayout.setBackgroundColor(getResources()
+                        .getColor(R.color.black_background));
+                oPartyLogoImgView.setVisibility(View.GONE);
+                break;
+            default:
+                break;
+        }
         if (official.getAddress() != null) {
             oAddressTxtView.setText(official.getAddress());
             oAddressTxtView.setOnClickListener(new View.OnClickListener() {
