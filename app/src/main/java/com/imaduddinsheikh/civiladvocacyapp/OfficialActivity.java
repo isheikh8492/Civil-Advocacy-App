@@ -4,6 +4,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +17,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashSet;
+import java.util.Hashtable;
 
 public class OfficialActivity extends AppCompatActivity {
     private static final String TAG = "OfficialActivity";
@@ -32,6 +36,8 @@ public class OfficialActivity extends AppCompatActivity {
     private TextView oWebsiteTxtView;
     private TextView websiteTxtView;
 
+    private ConstraintLayout oConstraintLayout;
+
     private ImageView oImgView;
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
@@ -40,6 +46,7 @@ public class OfficialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_official);
 
+        oConstraintLayout = findViewById(R.id.oConstraintLayout);
         oLocationTxtView = findViewById(R.id.oLocationTxtView);
         oNameTxtView = findViewById(R.id.oOfficialNameTxtView);
         oOfficeTxtView = findViewById(R.id.oOfficialOfficeTxtView);
@@ -88,6 +95,12 @@ public class OfficialActivity extends AppCompatActivity {
         oNameTxtView.setText(official.getName());
         oOfficeTxtView.setText(official.getOffice());
         oPartyTxtView.setText(official.getParty());
+        Hashtable<String, Integer> colorSet = new Hashtable<>();
+        colorSet.put("Republican Party", R.color.red_background);
+        colorSet.put("Democratic Party", R.color.blue_background);
+        colorSet.put("Nonpartisan", R.color.black_background);
+        oConstraintLayout.setBackgroundColor(getResources()
+                .getColor(colorSet.get(official.getParty())));
         if (official.getAddress() != null) {
             oAddressTxtView.setText(official.getAddress());
         } else {

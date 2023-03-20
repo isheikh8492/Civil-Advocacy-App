@@ -39,8 +39,6 @@ public class OfficialsDownloader {
     private static final String officialAPIUrl = "https://civicinfo.googleapis.com/civicinfo/v2/representatives";
     private static final String APIKey = "AIzaSyDzLuFbK2joVKvQ-uS-ZKlSsSja4FMvZKs";
 
-    private static Context context;
-
     public static void downloadOfficials(MainActivity mainActivityIn) {
         mainActivity = mainActivityIn;
         queue = Volley.newRequestQueue(mainActivity);

@@ -9,4 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="dark_purple">#431144</color>
     <color name="light_purple">#882288</color>
+    <color name="red_background">#fe0000</color>
+    <color name="blue_background">#0404fb</color>
+    <color name="black_background">#FF000000</color>
+
 </resources>
