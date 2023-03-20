@@ -115,11 +115,33 @@ public class OfficialActivity extends AppCompatActivity {
                 oConstraintLayout.setBackgroundColor(getResources()
                         .getColor(R.color.red_background));
                 oPartyLogoImgView.setImageResource(R.drawable.rep_logo);
+                oPartyLogoImgView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String repUrl = "https://www.gop.com";
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(repUrl));
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
+                    }
+                });
                 break;
             case "Democratic Party":
                 oConstraintLayout.setBackgroundColor(getResources()
                         .getColor(R.color.blue_background));
                 oPartyLogoImgView.setImageResource(R.drawable.dem_logo);
+                oPartyLogoImgView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String demUrl = "https://democrats.org/";
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(demUrl));
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
+                    }
+                });
                 break;
             case "Nonpartisan":
                 oConstraintLayout.setBackgroundColor(getResources()
