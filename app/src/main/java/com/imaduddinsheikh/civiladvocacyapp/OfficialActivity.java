@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -165,6 +166,12 @@ public class OfficialActivity extends AppCompatActivity {
             }
             if (official.socialMediaChannels.containsKey("YouTube")) {
                 youtubeImgView.setVisibility(View.VISIBLE);
+                youtubeImgView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickYouTube(v, official.socialMediaChannels.get("YouTube"));
+                    }
+                });
             } else {
                 youtubeImgView.setVisibility(View.INVISIBLE);
             }
@@ -174,6 +181,21 @@ public class OfficialActivity extends AppCompatActivity {
             youtubeImgView.setVisibility(View.INVISIBLE);
         }
     }
+
+    public void clickYouTube(View v, String youTubeUsername) {
+        Intent intent = null;
+        try {
+            intent = new Intent(Intent.ACTION_VIEW);
+            intent.setPackage("com.google.android.youtube");
+            intent.setData(Uri.parse("https://www.youtube.com/" + youTubeUsername));
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://www.youtube.com/" + youTubeUsername)));
+
+        }
+    }
+
 
     private void clickTwitter(View v, String twitterName) {
         Intent intent;
