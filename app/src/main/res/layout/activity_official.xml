@@ -82,8 +82,8 @@
 
     <ImageView
         android:id="@+id/facebookImgView"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         app:layout_constraintEnd_toStartOf="@id/youtubeImgView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/youtubeImgView"
@@ -91,8 +91,8 @@
 
     <ImageView
         android:id="@+id/youtubeImgView"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         app:layout_constraintBottom_toBottomOf="@+id/oOfficialImgView"
         app:layout_constraintEnd_toStartOf="@id/twitterImgView"
         app:layout_constraintStart_toEndOf="@+id/facebookImgView"
@@ -100,8 +100,8 @@
 
     <ImageView
         android:id="@+id/twitterImgView"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         app:layout_constraintEnd_toStartOf="@+id/oOfficialImgView"
         app:layout_constraintStart_toEndOf="@+id/youtubeImgView"
         app:layout_constraintTop_toTopOf="@+id/youtubeImgView"
