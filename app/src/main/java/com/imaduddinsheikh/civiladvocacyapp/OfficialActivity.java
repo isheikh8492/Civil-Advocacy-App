@@ -3,12 +3,15 @@ package com.imaduddinsheikh.civiladvocacyapp;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -140,11 +143,23 @@ public class OfficialActivity extends AppCompatActivity {
         if (!(official.socialMediaChannels.isEmpty())) {
             if (official.socialMediaChannels.containsKey("Facebook")) {
                 facebookImgView.setVisibility(View.VISIBLE);
+                facebookImgView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickFacebook(v, official.socialMediaChannels.get("Facebook"));
+                    }
+                });
             } else {
                 facebookImgView.setVisibility(View.INVISIBLE);
             }
             if (official.socialMediaChannels.containsKey("Twitter")) {
                 twitterImgView.setVisibility(View.VISIBLE);
+                twitterImgView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickTwitter(v, official.socialMediaChannels.get("Twitter"));
+                    }
+                });
             } else {
                 twitterImgView.setVisibility(View.INVISIBLE);
             }
@@ -158,5 +173,59 @@ public class OfficialActivity extends AppCompatActivity {
             twitterImgView.setVisibility(View.INVISIBLE);
             youtubeImgView.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void clickTwitter(View v, String twitterName) {
+        Intent intent;
+        try {
+            // get the Twitter app if possible
+            getPackageManager().getPackageInfo("com.twitter.android", 0);
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name=" + twitterName));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        } catch (Exception e) {
+            // no Twitter app, revert to browser
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/" + twitterName));
+        }
+        startActivity(intent);
+    }
+
+    public void clickFacebook(View v, String facebookUrl) {
+        // You need the FB user's id for the url
+        String FACEBOOK_URL = "https://www.facebook.com/" + facebookUrl;
+
+        Intent intent;
+
+        // Check if FB is installed, if not we'll use the browser
+        if (isPackageInstalled("com.facebook.katana")) {
+            String urlToUse = "fb://facewebmodal/f?href=" + FACEBOOK_URL;
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlToUse));
+        } else {
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(FACEBOOK_URL));
+        }
+
+        // Check if there is an app that can handle fb or https intents
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            makeErrorAlert("No Application found that handles ACTION_VIEW (fb/https) intents");
+        }
+    }
+
+    public boolean isPackageInstalled(String packageName) {
+        try {
+            return getPackageManager().getApplicationInfo(packageName, 0).enabled;
+        }
+        catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+    private void makeErrorAlert(String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage(msg);
+        builder.setTitle("No App Found");
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
