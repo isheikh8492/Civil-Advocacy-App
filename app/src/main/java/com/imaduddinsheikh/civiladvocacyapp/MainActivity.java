@@ -98,7 +98,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.menuInfo) {
-            Toast.makeText(this, "Display App Information", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, AboutActivity.class);
+            activityResultLauncher.launch(intent);
             return true;
         } else if (item.getItemId() == R.id.menuChangeLocations) {
             Toast.makeText(this, "Change Location", Toast.LENGTH_SHORT).show();
