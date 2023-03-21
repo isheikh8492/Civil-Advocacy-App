@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFusedLocationClient =
                 LocationServices.getFusedLocationProviderClient(this);
         determineLocation();
-        doDownload();
 
         officialRecyclerView = findViewById(R.id.officialsRecyclerView);
         officialAdapter = new OfficialsAdapter(this.officialList, this);
@@ -84,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (result.getResultCode() == Activity.RESULT_OK) {
             String l = data.getStringExtra("LOCATION");
             locationTxtView.setText(l);
-            doDownload();
+            doDownload(l);
         }
     }
 
@@ -109,6 +108,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private boolean hasNetworkConnection() {
+        ConnectivityManager connectivityManager = getSystemService(ConnectivityManager.class);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnectedOrConnecting());
+    }
+
+    private void determineLocation() {
+        // Check perm - if not then start the  request and return
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
+            return;
+        }
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, location -> {
+                    // Got last known location. In some situations this can be null.
+                    if (location != null) {
+                        locationString = getPlace(location);
+                        locationTxtView.setText(locationString);
+                        doDownload(locationString);
+                    }
+                })
+                .addOnFailureListener(this, e ->
+                        Toast.makeText(MainActivity.this,
+                                e.getMessage(), Toast.LENGTH_LONG).show());
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
@@ -121,41 +148,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         determineLocation();
+                        doDownload(locationString);
                     } else {
-                        locationTxtView.setText(locationString);
+                        locationTxtView.setText(R.string.location_permission_denied);
                     }
                 }
             }
         } else {
             locationTxtView.setText(R.string.no_internet);
         }
-    }
-
-    private boolean hasNetworkConnection() {
-        ConnectivityManager connectivityManager = getSystemService(ConnectivityManager.class);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnectedOrConnecting());
-    }
-
-    private void determineLocation() {
-        // Check perm - if not then start the  request and return
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
-            return;
-        }
-        mFusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, location -> {
-                    // Got last known location. In some situations this can be null.
-                    if (location != null) {
-                        locationString = getPlace(location);
-                    }
-                    locationTxtView.setText(locationString);
-                })
-                .addOnFailureListener(this, e ->
-                        Toast.makeText(this,
-                                "Can't fetch location", Toast.LENGTH_LONG).show());
     }
 
     private String getPlace(Location loc) {
@@ -205,8 +206,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void doDownload() {
-        OfficialsDownloader.downloadOfficials(this);
+    private void doDownload(String location) {
+        OfficialsDownloader.downloadOfficials(this, location);
     }
 
 

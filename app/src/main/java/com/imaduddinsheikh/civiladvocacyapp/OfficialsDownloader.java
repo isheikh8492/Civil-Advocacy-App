@@ -6,23 +6,16 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
-
-import androidx.annotation.Nullable;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class OfficialsDownloader {
     private static final String TAG = "OfficialsDownloader";
@@ -34,19 +27,16 @@ public class OfficialsDownloader {
     private static Official officialObj;
 
     private static List<Official> officialList = new ArrayList<>();;
-
-    private static String address = "6 W 31st St, Chicago, IL";
-
     private static final String officialAPIUrl = "https://civicinfo.googleapis.com/civicinfo/v2/representatives";
     private static final String APIKey = "AIzaSyDzLuFbK2joVKvQ-uS-ZKlSsSja4FMvZKs";
 
-    public static void downloadOfficials(MainActivity mainActivityIn) {
+    public static void downloadOfficials(MainActivity mainActivityIn, String location) {
         mainActivity = mainActivityIn;
         queue = Volley.newRequestQueue(mainActivity);
 
         Uri.Builder buildURL = Uri.parse(officialAPIUrl).buildUpon();
         buildURL.appendQueryParameter("key", APIKey);
-        buildURL.appendQueryParameter("address", address);
+        buildURL.appendQueryParameter("address", location);
         String urlToUse = buildURL.build().toString();
 
         Response.Listener<JSONObject> listener =

@@ -6,4 +6,5 @@
     <string name="version_1_0">Version 1.0</string>
     <string name="google_civic_information_api">Google Civic Information API</string>
     <string name="data_provided_by">Data provided by:</string>
+    <string name="location_permission_denied">Location permission was denied - cannot determine address</string>
 </resources>
