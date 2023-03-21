@@ -30,6 +30,8 @@ public class OfficialsDownloader {
     private static final String officialAPIUrl = "https://civicinfo.googleapis.com/civicinfo/v2/representatives";
     private static final String APIKey = "AIzaSyDzLuFbK2joVKvQ-uS-ZKlSsSja4FMvZKs";
 
+    private static String locationString = "Unspecified Location";
+
     public static void downloadOfficials(MainActivity mainActivityIn, String location) {
         mainActivity = mainActivityIn;
         queue = Volley.newRequestQueue(mainActivity);
@@ -40,10 +42,10 @@ public class OfficialsDownloader {
         String urlToUse = buildURL.build().toString();
 
         Response.Listener<JSONObject> listener =
-                response -> parseJSON(response.toString());
+                response -> parseJSON(response.toString(), location);
 
         Response.ErrorListener error =
-                error1 -> mainActivity.updateData(null);
+                error1 -> mainActivity.updateData(null, "Unspecified Location");
 
         // Request a string response from the provided URL.
         JsonObjectRequest jsonObjectRequest =
@@ -54,8 +56,8 @@ public class OfficialsDownloader {
         queue.add(jsonObjectRequest);
     }
 
-    private static void parseJSON(String s) {
-        Log.d(TAG, "parseJSON:\n" + s);
+    private static void parseJSON(String s, String location) {
+        locationString = location;
 
         try {
             JSONObject jObjMain = new JSONObject(s);
@@ -63,6 +65,7 @@ public class OfficialsDownloader {
             // "offices" and "official" section
             JSONArray offices = jObjMain.getJSONArray("offices");
             JSONArray officials = jObjMain.getJSONArray("officials");
+            Log.d(TAG, "parseJSON: " + officials.length());
 
             for (int i = 0; i < offices.length(); i++) {
                 JSONObject office = offices.getJSONObject(i);
@@ -81,7 +84,7 @@ public class OfficialsDownloader {
                 }
             }
 
-            mainActivity.updateData(officialList);
+            mainActivity.updateData(officialList, locationString);
         } catch (Exception e) {
             e.printStackTrace();
         }

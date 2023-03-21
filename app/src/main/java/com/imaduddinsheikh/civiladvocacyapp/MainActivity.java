@@ -4,6 +4,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -20,10 +21,13 @@ import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -102,6 +106,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return true;
         } else if (item.getItemId() == R.id.menuChangeLocations) {
             Toast.makeText(this, "Change Location", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+            final EditText et = new EditText(this);
+            et.setInputType(InputType.TYPE_CLASS_TEXT);
+            et.setGravity(Gravity.CENTER_HORIZONTAL);
+            builder1.setView(et);
+            builder1.setPositiveButton("OK", (dialog, id1) -> {
+                this.officialList.clear();
+                officialAdapter.notifyDataSetChanged();
+                doDownload(et.getText().toString());
+            });
+            builder1.setNegativeButton("CANCEL", (dialog, id1) -> {
+                dialog.dismiss();
+            });
+            builder1.setTitle("Enter Address");
+            AlertDialog dialog = builder1.create();
+            dialog.show();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -179,17 +199,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return sb.toString();
     }
 
-    public void updateData(List<Official> officialList) {
+    public void updateData(List<Official> officialList, String locationString) {
         if ((officialList == null) || (!(hasNetworkConnection()))) {
             return;
         }
 
         this.officialList = officialList;
+        MainActivity.locationString = locationString;
+        locationTxtView.setText(MainActivity.locationString);
         officialAdapter = new OfficialsAdapter(this.officialList, this);
         officialRecyclerView.setAdapter(officialAdapter);
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         officialRecyclerView.setLayoutManager(linearLayoutManager);
-
     }
 
     @Override
