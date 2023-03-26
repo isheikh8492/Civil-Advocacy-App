@@ -83,7 +83,21 @@ public class OfficialsDownloader {
                     mergeOfficialToList(official, officialOfficeTitle);
                 }
             }
-
+            if (jObjMain.has("normalizedInput")) {
+                JSONObject normalizedInput = jObjMain.getJSONObject("normalizedInput");
+                StringBuilder normalizedInputaddressLine = new StringBuilder();
+                for (int a = 1; a <= normalizedInput.length(); a++) {
+                    String lineAttr = "line" + a;
+                    if (normalizedInput.has(lineAttr)) {
+                        normalizedInputaddressLine.append(normalizedInput.get(lineAttr)).append(", ");
+                    } else {
+                        break;
+                    }
+                }
+                normalizedInputaddressLine.append(normalizedInput.get("city")).append(", ")
+                        .append(normalizedInput.get("state")).append(" ").append(normalizedInput.get("zip"));
+                locationString = normalizedInputaddressLine.toString();
+            }
             mainActivity.updateData(officialList, locationString);
         } catch (Exception e) {
             e.printStackTrace();
