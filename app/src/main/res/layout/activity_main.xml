@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:visibility="visible">
 
     <TextView
         android:id="@+id/oLocationTxtView"
@@ -12,7 +13,6 @@
         android:layout_height="wrap_content"
         android:background="@color/light_purple"
         android:padding="3dp"
-        android:text="Current Location"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20dp"
@@ -25,9 +25,46 @@
         android:id="@+id/officialsRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/oLocationTxtView" />
+
+    <LinearLayout
+        android:id="@+id/noDataNetworkRelativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="109dp"
+        android:layout_marginBottom="150dp"
+        android:background="@drawable/border"
+        android:orientation="vertical"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/oLocationTxtView">
+
+        <TextView
+            android:id="@+id/networkConnectionTxtView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="7dp"
+            android:paddingTop="7dp"
+            android:paddingRight="7dp"
+            android:paddingBottom="0dp"
+            android:text="No Network Connection"
+            android:textColor="@color/black"
+            android:textSize="23dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/noDataAccessTxtView"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:padding="7dp"
+            android:text="@string/no_data_access"
+            android:textSize="19dp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,6 +28,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,12 +57,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private OfficialsAdapter officialAdapter; // Data to recyclerview adapter
 
     private LinearLayoutManager linearLayoutManager;
+
+    private LinearLayout noDataLocationRelativeLayout;
     // Created by: Imaduddin Sheikh
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         locationTxtView = findViewById(R.id.oLocationTxtView);
         mFusedLocationClient =
                 LocationServices.getFusedLocationProviderClient(this);
@@ -75,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 this::handleResult);
+
+        noDataLocationRelativeLayout = findViewById(R.id.noDataNetworkRelativeLayout);
+        setViewVisibility(true);
     }
     // Created by: Imaduddin Sheikh
     public void handleResult(ActivityResult result) {
@@ -147,7 +153,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // Got last known location. In some situations this can be null.
                     if (location != null) {
                         locationString = getPlace(location);
-                        locationTxtView.setText(locationString);
                         doDownload(locationString);
                     }
                 })
@@ -168,14 +173,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         determineLocation();
+                        setViewVisibility(true);
                         doDownload(locationString);
                     } else {
+                        setViewVisibility(false);
                         locationTxtView.setText(R.string.location_permission_denied);
                     }
                 }
             }
         } else {
-            locationTxtView.setText(R.string.no_internet);
+            setViewVisibility(false);
+            locationTxtView.setText(R.string.location_permission_denied);
         }
     }
     // Created by: Imaduddin Sheikh
@@ -200,7 +208,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     // Created by: Imaduddin Sheikh
     public void updateData(List<Official> officialList, String locationString) {
+        setViewVisibility(true);
         if ((officialList == null) || (!(hasNetworkConnection()))) {
+            setViewVisibility(false);
             return;
         }
 
@@ -223,12 +233,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent.putExtra("OFFICIAL", (Serializable) o);
             activityResultLauncher.launch(intent);
         } else {
+            setViewVisibility(false);
             Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
         }
     }
     // Created by: Imaduddin Sheikh
     private void doDownload(String location) {
         OfficialsDownloader.downloadOfficials(this, location);
+    }
+
+    private void setViewVisibility(Boolean visibility) {
+        if (visibility) {
+            officialRecyclerView.setVisibility(View.VISIBLE);
+            noDataLocationRelativeLayout.setVisibility(View.GONE);
+        } else {
+            locationTxtView.setText(R.string.location_permission_denied);
+            officialRecyclerView.setVisibility(View.GONE);
+            noDataLocationRelativeLayout.setVisibility(View.VISIBLE);
+        }
     }
 
 
