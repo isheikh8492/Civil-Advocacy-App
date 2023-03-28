@@ -35,7 +35,6 @@
         android:id="@+id/noDataNetworkRelativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="109dp"
-        android:layout_marginBottom="150dp"
         android:background="@drawable/border"
         android:orientation="vertical"
         android:padding="5dp"
