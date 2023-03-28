@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import java.io.Serializable;
 import java.util.Hashtable;
 
+// Created by: Imaduddin Sheikh
 public class Official implements Serializable {
     private final String name;
 
@@ -32,6 +33,7 @@ public class Official implements Serializable {
 
     @Nullable final Hashtable<String, String> socialMediaChannels;
 
+    // Created by: Imaduddin Sheikh
     public Official(String name, String office, String party, String address, String phone, String email, String website, String photo,
                     Hashtable<String, String> socialMediaChannels) {
         this.name = name;

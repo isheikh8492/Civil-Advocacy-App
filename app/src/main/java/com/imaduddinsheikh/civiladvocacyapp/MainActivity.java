@@ -39,7 +39,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
+// Created by: Imaduddin Sheikh
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
     private FusedLocationProviderClient mFusedLocationClient;
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private OfficialsAdapter officialAdapter; // Data to recyclerview adapter
 
     private LinearLayoutManager linearLayoutManager;
-
+    // Created by: Imaduddin Sheikh
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new ActivityResultContracts.StartActivityForResult(),
                 this::handleResult);
     }
-
+    // Created by: Imaduddin Sheikh
     public void handleResult(ActivityResult result) {
 
         if (result == null || result.getData() == null) {
@@ -90,13 +90,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             doDownload(l);
         }
     }
-
+    // Created by: Imaduddin Sheikh
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.action_menu, menu);
         return true;
     }
-
+    // Created by: Imaduddin Sheikh
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -127,13 +127,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return super.onOptionsItemSelected(item);
         }
     }
-
+    // Created by: Imaduddin Sheikh
     private boolean hasNetworkConnection() {
         ConnectivityManager connectivityManager = getSystemService(ConnectivityManager.class);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnectedOrConnecting());
     }
-
+    // Created by: Imaduddin Sheikh
     private void determineLocation() {
         // Check perm - if not then start the  request and return
         if (ContextCompat.checkSelfPermission(this,
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(MainActivity.this,
                                 e.getMessage(), Toast.LENGTH_LONG).show());
     }
-
+    // Created by: Imaduddin Sheikh
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             locationTxtView.setText(R.string.no_internet);
         }
     }
-
+    // Created by: Imaduddin Sheikh
     private String getPlace(Location loc) {
 
         StringBuilder sb = new StringBuilder();
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return sb.toString();
     }
-
+    // Created by: Imaduddin Sheikh
     public void updateData(List<Official> officialList, String locationString) {
         if ((officialList == null) || (!(hasNetworkConnection()))) {
             return;
@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         officialRecyclerView.setLayoutManager(linearLayoutManager);
     }
-
+    // Created by: Imaduddin Sheikh
     @Override
     public void onClick(View v) {
         int pos = officialRecyclerView.getChildLayoutPosition(v);
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
         }
     }
-
+    // Created by: Imaduddin Sheikh
     private void doDownload(String location) {
         OfficialsDownloader.downloadOfficials(this, location);
     }

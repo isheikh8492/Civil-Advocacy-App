@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 import java.util.HashSet;
 import java.util.List;
 
+// Created by: Imaduddin Sheikh
 public class OfficialsAdapter extends RecyclerView.Adapter<OfficialsViewHolder> {
     private static final String TAG = "OfficialsAdapter";
 
@@ -24,6 +25,7 @@ public class OfficialsAdapter extends RecyclerView.Adapter<OfficialsViewHolder> 
         this.mainActivity = mainActivity;
     }
 
+    // Created by: Imaduddin Sheikh
     @NonNull
     @Override
     public OfficialsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -38,6 +40,7 @@ public class OfficialsAdapter extends RecyclerView.Adapter<OfficialsViewHolder> 
         return new OfficialsViewHolder(itemView);
     }
 
+    // Created by: Imaduddin Sheikh
     @Override
     public void onBindViewHolder(@NonNull OfficialsViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: FILLING VIEW HOLDER Official " + position);
@@ -54,6 +57,7 @@ public class OfficialsAdapter extends RecyclerView.Adapter<OfficialsViewHolder> 
         }
     }
 
+    // Created by: Imaduddin Sheikh
     @Override
     public int getItemCount() {
         return this.officialsList.size();

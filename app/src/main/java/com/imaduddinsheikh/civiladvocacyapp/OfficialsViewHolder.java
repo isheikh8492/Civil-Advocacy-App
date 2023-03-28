@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+// Created by: Imaduddin Sheikh
 public class OfficialsViewHolder extends RecyclerView.ViewHolder {
     TextView officialOfficeTitle;
 

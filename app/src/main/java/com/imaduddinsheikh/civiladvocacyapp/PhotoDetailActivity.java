@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 
+// Created by: Imaduddin Sheikh
 public class PhotoDetailActivity extends AppCompatActivity {
     private static final String TAG = "PhotoDetailActivity";
     private TextView pLocationTxtView;
@@ -31,6 +32,7 @@ public class PhotoDetailActivity extends AppCompatActivity {
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
+    // Created by: Imaduddin Sheikh
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,7 @@ public class PhotoDetailActivity extends AppCompatActivity {
                 this::handleResult);
     }
 
+    // Created by: Imaduddin Sheikh
     public void handleResult(ActivityResult result) {
 
         if (result == null || result.getData() == null) {
@@ -73,6 +76,7 @@ public class PhotoDetailActivity extends AppCompatActivity {
         }
     }
 
+    // Created by: Imaduddin Sheikh
     private void setActivityViews(Official official) {
         pOfficialNameTxtView.setText(official.getName());
         pOfficialOfficeTxtView.setText(official.getOffice());

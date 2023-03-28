@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Hashtable;
 
+// Created by: Imaduddin Sheikh
 public class OfficialActivity extends AppCompatActivity {
     private static final String TAG = "OfficialActivity";
     private TextView oLocationTxtView;
@@ -53,6 +54,7 @@ public class OfficialActivity extends AppCompatActivity {
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
+    // Created by: Imaduddin Sheikh
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +94,7 @@ public class OfficialActivity extends AppCompatActivity {
                 this::handleResult);
     }
 
+    // Created by: Imaduddin Sheikh
     public void handleResult(ActivityResult result) {
 
         if (result == null || result.getData() == null) {
@@ -107,6 +110,7 @@ public class OfficialActivity extends AppCompatActivity {
         }
     }
 
+    // Created by: Imaduddin Sheikh
     private void setActivityTextViews(Official official) {
         oNameTxtView.setText(official.getName());
         oOfficeTxtView.setText(official.getOffice());
@@ -260,6 +264,7 @@ public class OfficialActivity extends AppCompatActivity {
         }
     }
 
+    // Created by: Imaduddin Sheikh
     private void clickOWebsite(View v, String website) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(website));
@@ -292,6 +297,7 @@ public class OfficialActivity extends AppCompatActivity {
         }
     }
 
+    // Created by: Imaduddin Sheikh
     private void clickOAddress(View v, String address) {
         Uri mapUri = Uri.parse("geo:0,0?q=" + Uri.encode(address));
 
@@ -304,6 +310,7 @@ public class OfficialActivity extends AppCompatActivity {
         }
     }
 
+    // Created by: Imaduddin Sheikh
     public void clickYouTube(View v, String youTubeUsername) {
         Intent intent = null;
         try {
@@ -319,6 +326,7 @@ public class OfficialActivity extends AppCompatActivity {
     }
 
 
+    // Created by: Imaduddin Sheikh
     private void clickTwitter(View v, String twitterName) {
         Intent intent;
         try {
@@ -333,6 +341,7 @@ public class OfficialActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // Created by: Imaduddin Sheikh
     public void clickFacebook(View v, String facebookUrl) {
         // You need the FB user's id for the url
         String FACEBOOK_URL = "https://www.facebook.com/" + facebookUrl;
@@ -355,6 +364,7 @@ public class OfficialActivity extends AppCompatActivity {
         }
     }
 
+    // Created by: Imaduddin Sheikh
     public boolean isPackageInstalled(String packageName) {
         try {
             return getPackageManager().getApplicationInfo(packageName, 0).enabled;

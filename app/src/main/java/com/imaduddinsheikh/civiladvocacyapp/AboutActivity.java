@@ -10,10 +10,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
-
+// Created by: Imaduddin Sheikh
 public class AboutActivity extends AppCompatActivity {
     private TextView ApiNameTxtView;
 
+    // Created by: Imaduddin Sheikh
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
