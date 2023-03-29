@@ -16,7 +16,7 @@
         android:text="Current Location"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="19dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,9 +24,9 @@
 
     <ImageView
         android:id="@+id/oOfficialImgView"
-        android:layout_width="170dp"
-        android:layout_height="220dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="160dp"
+        android:layout_height="210dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -218,7 +218,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.20058565" />
+        app:layout_constraintGuide_percent="0.20" />
 
     <ImageView
         android:id="@+id/oPartyLogoImgView"

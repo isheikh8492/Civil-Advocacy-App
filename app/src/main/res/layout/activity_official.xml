@@ -16,7 +16,7 @@
         android:text="Current Location"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="19dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,8 +26,8 @@
         android:id="@+id/oOfficialImgView"
         android:layout_width="140dp"
         android:layout_height="180dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/oLocationTxtView"
         app:srcCompat="@drawable/missing" />
@@ -40,8 +40,8 @@
         android:layout_marginEnd="10dp"
         android:text="John Doe"
         android:textAlignment="center"
-        android:textSize="22dp"
         android:textColor="@color/white"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/oOfficialOfficeTxtView"
         app:layout_constraintEnd_toStartOf="@+id/oOfficialImgView"
@@ -55,9 +55,9 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:text="Office Title"
-        android:textColor="@color/white"
         android:textAlignment="center"
-        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:textSize="18dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/oOfficialPartyTxtView"
         app:layout_constraintEnd_toStartOf="@+id/oOfficialImgView"
@@ -71,9 +71,9 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:text="Official Party"
-        android:textColor="@color/white"
         android:textAlignment="center"
-        android:textSize="18dp"
+        android:textColor="@color/white"
+        android:textSize="17dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/youtubeImgView"
         app:layout_constraintEnd_toStartOf="@+id/oOfficialImgView"
@@ -109,112 +109,116 @@
 
     <TextView
         android:id="@+id/addressTxtView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="25dp"
-        android:padding="2dp"
+        android:layout_marginStart="10dp"
         android:text="Address:"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/youtubeImgView" />
+        app:layout_constraintTop_toTopOf="@+id/oAddressTxtView" />
 
     <TextView
         android:id="@+id/phoneTxtView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:padding="2dp"
+        android:layout_marginStart="10dp"
         android:text="Phone:"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/addressTxtView"
-        app:layout_constraintTop_toBottomOf="@+id/oAddressTxtView" />
+        app:layout_constraintEnd_toStartOf="@+id/oPhoneTxtView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/oPhoneTxtView" />
 
     <TextView
         android:id="@+id/EmailTxtView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:padding="2dp"
+        android:layout_marginStart="10dp"
         android:text="Email:"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/phoneTxtView"
-        app:layout_constraintTop_toBottomOf="@+id/oPhoneTxtView" />
+        app:layout_constraintEnd_toStartOf="@+id/oEmailTxtView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/oEmailTxtView" />
 
     <TextView
         android:id="@+id/websiteTxtView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:padding="2dp"
+        android:layout_marginStart="10dp"
         android:text="Website:"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/EmailTxtView"
-        app:layout_constraintTop_toBottomOf="@+id/oEmailTxtView" />
+        app:layout_constraintEnd_toStartOf="@+id/oWebsiteTxtView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/oWebsiteTxtView" />
 
     <TextView
         android:id="@+id/oAddressTxtView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="10dp"
         android:padding="2dp"
         android:text="TextView"
         android:textColor="@color/white"
-        android:textSize="20dp"
-        android:textStyle="normal|bold"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/oPhoneTxtView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/addressTxtView" />
+        app:layout_constraintTop_toBottomOf="@+id/youtubeImgView" />
 
     <TextView
         android:id="@+id/oPhoneTxtView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="10dp"
         android:padding="2dp"
         android:text="TextView"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/oEmailTxtView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/phoneTxtView" />
+        app:layout_constraintStart_toEndOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/oAddressTxtView" />
+
     <TextView
         android:id="@+id/oEmailTxtView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="10dp"
         android:padding="2dp"
         android:text="TextView"
-        android:textColor="@color/white"
         android:textAlignment="viewStart"
-        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:textSize="18dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/oWebsiteTxtView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/EmailTxtView" />
+        app:layout_constraintStart_toEndOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/oPhoneTxtView" />
 
     <TextView
         android:id="@+id/oWebsiteTxtView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="10dp"
         android:padding="2dp"
         android:text="TextView"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/websiteTxtView" />
+        app:layout_constraintTop_toBottomOf="@+id/oEmailTxtView" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -222,7 +226,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintGuide_end="327dp"
+        app:layout_constraintGuide_percent="0.25"
         app:layout_constraintStart_toEndOf="@id/phoneTxtView"
         app:layout_constraintTop_toTopOf="parent" />
 
